@@ -9,17 +9,23 @@ class Main extends React.Component {
   };
 
   componentDidMount() {
-    fetch('http://www.omdbapi.com/?apikey=dab7690a&s=matrix&page=5')
+    fetch('http://www.omdbapi.com/?apikey=dab7690a&s=matrix')
       .then((response) => response.json())
       .then((data) => this.setState({ movies: data.Search }));
   }
+
+  searchMovies = (str) => {
+    fetch(`http://www.omdbapi.com/?apikey=dab7690a&s=${str}`)
+      .then((response) => response.json())
+      .then((data) => this.setState({ movies: data.Search }));
+  };
 
   render() {
     const { movies } = this.state;
 
     return (
       <main className="container content">
-        <Search />
+        <Search searchMovies={this.searchMovies} />
         {movies.length ? <Movies movies={movies} /> : <Preloader />}
       </main>
     );
